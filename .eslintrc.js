@@ -1,13 +1,8 @@
 // .eslintrc.js
 module.exports = {
-  extends: ['eslint:recommended'],
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
+  plugins: ['react'],
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  parser: 'babel-eslint',
   env: {
     node: true,
   },
