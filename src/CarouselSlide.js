@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const DefaultImg = styled.img`
   object-fit: cover;
   width: 100%;
-  height: ${(props) =>
+  height: ${props =>
     typeof props.imgHeight === 'number'
       ? `${props.imgHeight}px`
       : props.imgHeight};
