@@ -1,8 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import CarouselSlide from '../CarouselSlide';
-// import { render } from '@testing-library/react';
-// import renderer from 'react-test-renderer';
 
 describe('CarouselSlide', () => {
   let wrapper;
@@ -15,6 +13,7 @@ describe('CarouselSlide', () => {
       />
     );
   });
+
   it('renders a <figure>', () => {
     expect(wrapper.type()).toBe('figure');
   });
@@ -58,15 +57,11 @@ describe('Img', () => {
 
   beforeEach(() => {
     const Img = CarouselSlide.defaultProps.Img;
-    // mounted = renderer.create(<Img src={imgUrl} imgHeight={500} />).toJSON();
     mounted = mount(<Img src={imgUrl} imgHeight={500} />);
   });
 
   it('renders an <img> with the given src', () => {
-    // expect(mounted).toMatchSnapshot();
     expect(mounted.containsMatchingElement(<img src={imgUrl} />)).toBe(true);
-    // console.log(mounted);
-    // expect(mounted).toHaveStyleRule('width', '100%');
   });
 
   it('has the expected static styles', () => {
