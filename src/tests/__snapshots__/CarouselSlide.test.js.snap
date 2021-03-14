@@ -1,8 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CarouselSlide renders correctly 1`] = `ShallowWrapper {}`;
+exports[`CarouselSlide renders correctly 1`] = `
+<figure>
+  <CarouselSlide__DefaultImg
+    imgHeight={500}
+    src="https://example.com/default.jpg"
+  />
+  <figcaption>
+    <strong>
+      Description
+    </strong>
+     
+    Attribution
+  </figcaption>
+</figure>
+`;
 
-exports[`Img renders an <img> with the given src 1`] = `
+exports[`Img renders correctly 1`] = `
 .c0 {
   object-fit: cover;
   width: 100%;
@@ -14,5 +28,3 @@ exports[`Img renders an <img> with the given src 1`] = `
   src="https://example.com/default.jpg"
 />
 `;
-
-exports[`Img renders correctly 1`] = `ReactWrapper {}`;
