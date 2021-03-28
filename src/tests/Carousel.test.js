@@ -25,25 +25,36 @@ describe('Carousel', () => {
 
   describe('component with HOC', () => {
     // Tests against carousel will go here
-    let wrapper;
+    let mounted;
 
     beforeEach(() => {
-      wrapper = shallow(<Carousel slides={slides} />);
-    });
-
-    it('sets slideIndex={0} on the core component', () => {
-      expect(wrapper.find(CoreCarousel).prop('slideIndex')).toBe(0);
+      mounted = mount(<Carousel slides={slides} />);
     });
 
     it('passes `slides` down to the core component', () => {
-      expect(wrapper.find(CoreCarousel).prop('slides')).toBe(slides);
+      expect(mounted.find(CoreCarousel).prop('slides')).toBe(slides);
+    });
+
+    it('sets slideIndex={0} on the core component', () => {
+      expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(0);
     });
 
     it('allows `slideIndex` to be controlled', () => {
-      const mounted = mount(<Carousel slides={slides} slideIndex={1} />);
+      mounted = mount(<Carousel slides={slides} slideIndex={1} />);
       expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(1);
       mounted.setProps({ slideIndex: 0 });
       expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(0);
+    });
+
+    it('advances the slide time after `autoAdvanceDelay` elapses', () => {
+      jest.useFakeTimers();
+      const autoAdvanceDelay = 10e3;
+      mounted = mount(
+        <Carousel slide={slides} autoAdvanceDelay={autoAdvanceDelay} />
+      );
+      jest.advanceTimersByTime(autoAdvanceDelay);
+      mounted.update();
+      expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(1);
     });
   });
 
@@ -68,10 +79,6 @@ describe('Carousel', () => {
       expect(wrapper.type()).toBe('div');
     });
 
-    it('has an initial `slideIndex` of 0', () => {
-      expect(wrapper.state('slideIndex')).toBe(0);
-    });
-
     it('renders a CarouselButton labeled "Prev"', () => {
       expect(
         wrapper
@@ -90,38 +97,6 @@ describe('Carousel', () => {
       ).toBe('Next');
     });
 
-    describe('with a middle slide selected', () => {
-      beforeEach(() => {
-        wrapper.setState({ slideIndex: 1 });
-      });
-
-      it('decrements `slideIndex` when Prev is clicked', () => {
-        wrapper.find('[data-action="prev"]').simulate('click');
-        expect(slideIndexDecrement).toHaveBeenCalledWith(slides.length);
-      });
-
-      it('increments `slideIndex` when Next is clicked', () => {
-        wrapper.find('[data-action="next"]').simulate('click');
-        expect(slideIndexIncrement).toHaveBeenCalledWith(slides.length);
-      });
-    });
-
-    // describe('with the first slide selected', () => {
-    //   it('wraps `slideIndex` to the max value when Prev is clicked', () => {
-    //     wrapper.setState({ slideIndex: 0 });
-    //     wrapper.find('[data-action="prev"]').simulate('click');
-    //     expect(wrapper.state('slideIndex')).toBe(slides.length - 1);
-    //   });
-    // });
-
-    // describe('with the last slide selected', () => {
-    //   it('wraps `slideIndex` to the min value when Next is clicked', () => {
-    //     wrapper.setState({ slideIndex: slides.length - 1 });
-    //     wrapper.find('[data-action="next"]').simulate('click');
-    //     expect(wrapper.state('slideIndex')).toBe(0);
-    //   });
-    // });
-
     it('renders the current slide as a CarouselSlide', () => {
       let slideProps;
       slideProps = wrapper.find(CarouselSlide).props();
@@ -135,6 +110,16 @@ describe('Carousel', () => {
         ...CarouselSlide.defaultProps,
         ...slides[1],
       });
+    });
+
+    it('decrements `slideIndex` when Prev is clicked', () => {
+      wrapper.find('[data-action="prev"]').simulate('click');
+      expect(slideIndexDecrement).toHaveBeenCalledWith(slides.length);
+    });
+
+    it('increments `slideIndex` when Next is clicked', () => {
+      wrapper.find('[data-action="next"]').simulate('click');
+      expect(slideIndexIncrement).toHaveBeenCalledWith(slides.length);
     });
 
     it('passes defaultImg and defaultImgHeight to the CarouselSlide', () => {
