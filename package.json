@@ -11,7 +11,9 @@
     "lint": "npm run lint:js && npm run lint:css",
     "format": "prettier-eslint --write **/*.js",
     "build": "webpack --config webpack.config.js",
-    "dev": "webpack-dev-server --config webpack.config.js --open"
+    "dev": "webpack-dev-server --config webpack.config.js --open",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,10 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^6.2.2",
+    "@storybook/addon-links": "^6.2.2",
+    "@storybook/addons": "^6.2.2",
+    "@storybook/react": "^6.2.2",
     "@testing-library/react": "^11.2.5",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
